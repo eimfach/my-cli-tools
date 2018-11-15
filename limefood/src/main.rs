@@ -31,15 +31,18 @@ fn main() -> Result<(), ExitFailure>{
         .with_context(|_| format!("Could not read file {}", path.to_str().unwrap()))?;
 
     let mut out = String::new();
-    let chars = contents.chars().enumerate();
-
-    for (i, char_item) in chars {
+    let chars = contents.chars();
+    let mut i = 1;
+    for char_item in chars {
         if char_item != '\n' {
             out.push(char_item);
         }
-        if i > 0 && i % length == 0 {
+ 
+        if i % length == 0 {
             out.push('\n');
         }
+
+        i = i + 1;
     }
     fs::write(path, out)?;
     Ok(())
